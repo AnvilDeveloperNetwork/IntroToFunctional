@@ -5,7 +5,7 @@ Wikipedia:
 > In computer science, functional programming is a programming paradigm—a style of building the structure and elements of computer programs—that treats computation as the evaluation of mathematical functions and avoids changing-state and mutable data
 
 
-Functional programming is a programming paradigm. Meaning it is a *style* of programming. Consider some other programming paradigms you're likely familiar with: (procedural, object oriented, etc.). These are just rule sets we use to structure the way we as developers write code and think about the problems we're solving.
+Functional programming or FP for short, is a programming paradigm. Meaning it is a *style* of programming. Consider some other programming paradigms you're likely familiar with: (procedural, object oriented, etc.). These are just rule sets we use to structure the way we as developers write code and think about the problems we're solving.
 
 Many languages have been built to enforce some of the important laws of functional programming and are built entirely around the paradigm. These languages are very fun to use and I'd highly encourage you to try a few of them out. However, the purpose of today is not to learn a *functional* language. Today, we're going to learn what functional programming is and how you can use the concepts of it inside REAL WORLD code. 
 
@@ -20,7 +20,8 @@ We'll be using javascript throughout this talk, but this isn't a talk about func
 * Writing Declarative and Composable Code
 * Encouraging Immutability (Avoid Side Effects)
 
-Let's focus on HOW we do these things in our code. One of the more obvious ways you might think to accomplish this is to express all parts of our program as simple functions.
+So how do we "do" functional programming? 
+One of the more obvious ways you might think to accomplish this is to express all parts of our program as simple functions.
 
 To get a better idea of what that means let's transform some non-functional code into functional code.
 
@@ -85,14 +86,16 @@ function checkCarStatus(driver, car) {
 
 ```
 
+Here we have the exact same logic as before, but we've extracted it out to a separate function making it much easier to reason about.
 
-#### Immutability & Pure Functions 
 
-Another core part of functional programming is avoiding mutation as much as possible. Why? In short, minimizing state mutation simplifies programs. When state change is a rarity testing, debugging, and understanding programs become so much EASIER. Plus, in a broader scope, with a lack of state change comes easy program parallelization.
+### Immutability & Pure Functions 
 
-Now, unfortunately we can't totally eliminate state mutation because without state mutation our programs would be useless! That being said, we can work on minimizing state mutation when possible.
+Another core part of functional programming is avoiding mutation as much as possible. Why? In short, minimizing state mutation simplifies programs. When state change is rare, testing, debugging, and reasoning about our code becomes much EASIER.
 
-One way we can put this new idea into action is by composing our programs with pure functions.
+Now, unfortunately we can't totally eliminate state mutation because without state mutation our programs would be useless! That being said, we can work on minimizing and isolating state mutation in our code.
+
+One way we can put this new idea into action is by defining our programs as a composition of pure functions.
 
 A pure function is a function that satisfies two properties:
 
@@ -102,10 +105,7 @@ A pure function is a function that satisfies two properties:
 
 This begs the question: What exactly is a side effect? 
 
-A side effect is anything a function does that effects the "world" outside of the function. This can be anything from printing to the console or mutating a global variable. The goal is to write deterministic (the function output only depends on the function input) functions that don't have any side effects. We call these types of functions Pure Functions. 
-
-- In other words, there is no way to tell that the function was called from anywhere else in the program: no outside state was changed during the execution of the function (i.e variables reassigned, IO streams written to, etc.) 
-
+A side effect is anything a function does that effects the "world" outside of the function. This can be anything from writing to a file or mutating a global variable. In other words, there is no way to tell that the function was called from anywhere else in the program.
 
 Example of impure function:
 
@@ -135,14 +135,12 @@ function double(x) {
 
 #### What benefit does using pure functions provide?
 
-When we write pure functions it's like giving ourselves a free GUARENTEE that no state will change during the call of this function which makes testing and debugging our program super simple.
+When we write pure functions it's like giving ourselves a free GUARENTEE that no state will change during the call of this function. This guarentee makes testing and debugging our program super simple.
 
-To reiteate - state mutation is a necessary evil of programming, but should be avoided when possible.
+Looking back at our wikipedia definition:
+>  In computer science, functional programming is a programming paradigm—a style of building the structure and elements of computer programs—that treats computation as the evaluation of mathematical functions and avoids changing-state and mutable data
 
-This should help explain the following line from our wikipedia definition
-> (referring to functional programming) "treats computation as the evaluation of mathematical functions and avoids changing-state and mutable data"
-
-These mathematical functions the definition refers to are just pure functions. Just like a math function, pure functions take an input and return a deterministic output without mutating anything outside the function.
+"Mathmatical functions" is just a different term for the pure functions we've been looking at. Just like a math function, pure functions take an input and return a deterministic output without mutating anything outside the function.
 
 Mathematics
 
@@ -162,15 +160,19 @@ function f(x) {
 the only difference is syntax!
 
 
-#### Higher-Order Functions
+### Higher-Order Functions
 
-> Functions that accept one or more functions as arguments or return a functions as their result.
+A higher-order function is a function that does either of the following:
 
-Higher order functions are another pillar of functional programming. When our language lets us pass functions into other functions and return functions from functions we can create all sorts of super nice abstractions that decrease repetitive code and improve the readability of our programs.
+1.) Accepts one or more functions as arguments
 
+2.) Returns a function
+
+Higher order functions (HOFs) are another useful tool to help write more functional code. When our language lets us pass functions into other functions and return functions from functions we can create all sorts of super nice abstractions that decrease repetitive code and improve the readability of our programs.
+
+Example of HOFs:
 
 ```javascript
-
 // inovke is a higher-order function
 function invoke(f) {
 	return f()
@@ -185,7 +187,7 @@ const value = invoke(dummyFunction)
 value
 => "I'm a dummyFunction"
 ```
-
+All our `invoke` function does is invoke the function passed to it. So, above we create a function called `dummyFunction` and pass that to `invoke`. The return value is then assigned to a constant we've named `value`.
 
 Slightly more practical example:
 
@@ -200,13 +202,16 @@ const morningGreeting = greetWith("Good morning, ")
 
 const students = ["Samantha", "Kunal", "George"]
 
+let morningGreetings = [];
+
 for(let i = 0; i < students.length; i++) {
-	console.log(morningGreeting(students[i]))
+	morningGreetings.push(morningGreeting(students[i]))
 }
 
-=> "Good morning, Samanatha"
-   "Good morning, Kunal"
-   "Good morning, George"
+morningGreetings
+=> [ "Good morning, Samanatha", 
+     "Good morning, Kunal", 
+     "Good morning, George" ]
 ```
 
 #### Avoiding List Iteration
@@ -354,14 +359,14 @@ console.log(evens) // [2, 4]
 
 For more info on `filter` in Javascript check the [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Filter)
 
+___
 
-
-#### Final exercise: 
-#####Rewrite both the map and filter function using reduce.
+##### Exercise: Rewrite both the map and filter functions using reduce.
 
 *(solutions in map\_from\_reduce.js and filter\_from\_reduce.js)*
+___
 
-#### Declarative > Imperative
+### Writing Declarative Code
 
 What are the perks of using abstractions like `Map`, `Filter`, and `Reduce` aside from avoiding the strain of typing more? Are there any?
 
@@ -422,16 +427,65 @@ Let's take a look at more examples of refactoring to functional code by not manu
 
 ##### Refactoring to Functional
 
-Block 1: (Find max element in list)
+Block 1: (Greet the students) 
+
+Imperative
+
+```javascript
+function greetWith(greeting) {
+	return function(name) {
+		return greeting + name
+	}
+}
+
+const morningGreeting = greetWith("Good morning, ")
+
+const students = ["Samantha", "Kunal", "George"]
+
+let morningGreetings = [];
+
+for(let i = 0; i < students.length; i++) {
+	morningGreetings.push(morningGreeting(students[i]))
+}
+
+morningGreetings
+=> [ "Good morning, Samanatha", 
+     "Good morning, Kunal", 
+     "Good morning, George" ]
+```
+
+Functional
+
+```javascript
+function greetWith(greeting) {
+	return function(name) {
+		return greeting + name
+	}
+}
+
+const morningGreeting = greetWith("Good morning, ")
+
+const students = ["Samantha", "Kunal", "George"]
+
+const morningGreetings = students.map(morningGreeting)
+
+morningGreetings
+=> [ "Good morning, Samanatha", 
+     "Good morning, Kunal", 
+     "Good morning, George" ]
+
+```
+
+Block 2: (Find max element in list)
 
 Imperative
 
 ```javascript
 const counts = [23, 15, 6, 79, 12]
 
-let max = -Infinity
+let max = counts[0]
 
-for(let i = 0; i < counts.length; i++) {
+for(let i = 1; i < counts.length; i++) {
 	if(counts[i] > max) {
 		max = counts[i]
 	}
@@ -458,7 +512,8 @@ console.log(`The max was ${max}!`)
 ```
 
 
-Block 2: (create a new list of the incremented even numbers in the original list)
+
+Block 3: (create a new list containing incremented versions of the even numbers in the original list)
 
 Imperative
 
@@ -503,12 +558,15 @@ Functional programming is a paradigm of programming that can help us simplifiy o
 __Articles/Blog Posts__
 
 A Practical Introduction to Functional Programming:
+
 https://maryrosecook.com/blog/post/a-practical-introduction-to-functional-programming
 
 Higher Order Functions: Using Filter, Map and Reduce for More Maintainable Code:
+
 https://medium.freecodecamp.org/higher-order-functions-in-javascript-d9101f9cf528
 
 A beginner friendly intro to functional programming:
+
 https://codeburst.io/a-beginner-friendly-intro-to-functional-programming-4f69aa109569
 
 
@@ -516,13 +574,18 @@ https://codeburst.io/a-beginner-friendly-intro-to-functional-programming-4f69aa1
 __Talks/Video Playlists__
 
 Fun Fun Function (Functional Programming in Javascript):
+
 https://www.youtube.com/playlist?list=PL0zVEGEvSaeEd9hlmCXrk5yUyqUag-n84
 
-Hey Underscore, You're Doing it Wrong!
+Learning Functional Programming with JavaScript:
+
+https://www.youtube.com/watch?v=e-5obm1G_FY&t=642s
+
+Hey Underscore, You're Doing it Wrong!:
+
 https://www.youtube.com/watch?v=m3svKOdZijA
 
-Learning Functional Programming with JavaScript
-https://www.youtube.com/watch?v=e-5obm1G_FY&t=642s
+
 
 
 
