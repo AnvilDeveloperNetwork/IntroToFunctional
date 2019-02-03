@@ -498,7 +498,31 @@ Functional programming is a paradigm of programming that can help us simplifiy o
 *Our goal is not to write functional code - our goal is simplicity and functional programming is the tool we're using to achieve it.*
 
 
+### More Resources!
 
+__Articles/Blog Posts__
+
+A Practical Introduction to Functional Programming:
+https://maryrosecook.com/blog/post/a-practical-introduction-to-functional-programming
+
+Higher Order Functions: Using Filter, Map and Reduce for More Maintainable Code:
+https://medium.freecodecamp.org/higher-order-functions-in-javascript-d9101f9cf528
+
+A beginner friendly intro to functional programming:
+https://codeburst.io/a-beginner-friendly-intro-to-functional-programming-4f69aa109569
+
+
+
+__Talks/Video Playlists__
+
+Fun Fun Function (Functional Programming in Javascript):
+https://www.youtube.com/playlist?list=PL0zVEGEvSaeEd9hlmCXrk5yUyqUag-n84
+
+Hey Underscore, You're Doing it Wrong!
+https://www.youtube.com/watch?v=m3svKOdZijA
+
+Learning Functional Programming with JavaScript
+https://www.youtube.com/watch?v=e-5obm1G_FY&t=642s
 
 
 
