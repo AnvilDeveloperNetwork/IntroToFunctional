@@ -1,5 +1,7 @@
 ### Introduction to Functional Programming
 
+Slides: https://slides.com/clayton_m12/functional-programming
+
 #### What is Functional Programming?
 Wikipedia: 
 > In computer science, functional programming is a programming paradigm—a style of building the structure and elements of computer programs—that treats computation as the evaluation of mathematical functions and avoids changing-state and mutable data
@@ -273,7 +275,7 @@ This code looks much simpler! And if we want to keep it even more concise we can
 
 ```javascript
 function incrementEntries(list) {
-	return list.map(x => x + 1)
+	return list.map(function(x) { return x + 1 })
 }
 ```
 
@@ -320,7 +322,6 @@ const sum = nums.reduce(function(accumulator, currentValue) {
 Your reducer function's return value is assigned to the accumulator whose value is remembered across each iteration throughout the array and ultimately becomes the final, single resulting value.
 
 
-
 Implementation of reduce
 
 ```javascript
@@ -341,7 +342,7 @@ For more info on `reduce` in Javascript check the [MDN Docs](https://developer.m
 ___
 
 Once you understand `map` and `reduce`, `filter` is easy.
-The filter function creates a new array with all elements that pass the proposition function passed as an argument to the filter function.
+The filter function creates a new array with all elements that pass the test implemented by the provided function.
 
 Example:
 
@@ -483,21 +484,22 @@ Imperative
 ```javascript
 const counts = [23, 15, 6, 79, 12]
 
-let max = counts[0]
+let maxCount = counts[0]
 
 for(let i = 1; i < counts.length; i++) {
-	if(counts[i] > max) {
-		max = counts[i]
+	if(counts[i] > maxCount) {
+		maxCount = counts[i]
 	}
 }
 
-console.log(`The max was ${max}!`)
+maxCount
+=> 79
 ```
 
 Declarative (Functional)
 
 ```javascript
-function compare(x, y) {
+function max(x, y) {
 	if(x > y) {
 		return x;
 	}
@@ -506,9 +508,10 @@ function compare(x, y) {
 
 const counts = [23, 15, 6, 79, 12]
 
-const max = counts.reduce(compare)
+const maxCount = counts.reduce(max)
 
-console.log(`The max was ${max}!`)
+maxCount
+=> 79
 ```
 
 
