@@ -484,9 +484,9 @@ Imperative
 ```javascript
 const counts = [23, 15, 6, 79, 12]
 
-let maxCount = counts[0]
+let maxCount = -Infinity
 
-for(let i = 1; i < counts.length; i++) {
+for(let i = 0; i < counts.length; i++) {
 	if(counts[i] > maxCount) {
 		maxCount = counts[i]
 	}
@@ -508,7 +508,7 @@ function max(x, y) {
 
 const counts = [23, 15, 6, 79, 12]
 
-const maxCount = counts.reduce(max)
+const maxCount = counts.reduce(max, -Infinity)
 
 maxCount
 => 79
